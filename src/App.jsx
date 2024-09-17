@@ -8,6 +8,7 @@ import PageNotFound from "./pages/PageNotFound";
 import Account from "./pages/Account";
 import Login from "./pages/Login";
 import GlobalStyles from "./styles/GlobalStyles";
+import AppLayout from "./ui/AppLayout";
 
 function App() {
   return (
@@ -20,14 +21,17 @@ function App() {
         This will basically redirect the route to the dashboard
         /dashboard
       */}
-          <Route index element={<Navigate replace to="dashboard" />} />
-          <Route path="dashboard" element={<Dashboard />} />
+          <Route element={<AppLayout />}>
+            <Route index element={<Navigate replace to="dashboard" />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="bookings" element={<Bookings />} />
+            <Route path="cabins" element={<Cabins />} />
+            <Route path="users" element={<Users />} />
+            <Route path="settings" element={<Settings />} />
+            <Route path="account" element={<Account />} />
+          </Route>
+
           <Route path="login" element={<Login />} />
-          <Route path="bookings" element={<Bookings />} />
-          <Route path="cabins" element={<Cabins />} />
-          <Route path="users" element={<Users />} />
-          <Route path="settings" element={<Settings />} />
-          <Route path="account" element={<Account />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
