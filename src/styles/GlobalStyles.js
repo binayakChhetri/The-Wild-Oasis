@@ -3,6 +3,11 @@ import { createGlobalStyle } from "styled-components";
 // We are creating global styles to apply styles in the overall website
 const GlobalStyles = createGlobalStyle`
 
+button {
+  cursor: pointer;
+}
+
+
 :root {
   /* Indigo */ 
   --color-brand-50: #eef2ff;
@@ -91,9 +96,6 @@ select {
   color: inherit;
 }
 
-button {
-  cursor: pointer;
-}
 
 *:disabled {
   cursor: not-allowed;
