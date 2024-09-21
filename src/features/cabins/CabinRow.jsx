@@ -1,4 +1,10 @@
+/* eslint-disable */
+
 import styled from "styled-components";
+import { formatCurrency } from "../../utils/helpers";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteCabin } from "../../services/apiCabins";
+import toast from "react-hot-toast";
 
 const TableRow = styled.div`
   display: grid;
@@ -38,3 +44,50 @@ const Discount = styled.div`
   font-weight: 500;
   color: var(--color-green-700);
 `;
+function CabinRow({ cabin }) {
+  const {
+    id: cabinId,
+    image,
+    maxCapacity,
+    name,
+    regular_price,
+    discount,
+  } = cabin;
+
+  // By using "useQueryClient" hook we can access the querClient instance
+  const queryClient = useQueryClient();
+
+  // This is used for mutating the values of the remote state (database datas)
+  const {
+    isLoading: isDeleting,
+    mutate /*  mutate is just a callback function that we can connect with the button */,
+  } = useMutation({
+    mutationFn: deleteCabin /* or (cabinId) => deleteCabin(cabinId) */,
+    /* This is the function that react query will call */ // This will tell react query what to do as soon as mutation was successful
+    // Here, we will invalid the cache to re-fetch the data
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        // This data with "cabins" as queryKey will be invalidate
+        queryKey: ["cabins"],
+      });
+      toast.success("Cabin successfully deleted");
+    },
+    onError: (err) => toast.error(err.message),
+  });
+
+  return (
+    <TableRow role="row">
+      <Img src={image} />
+      <Cabin>{name}</Cabin>
+      <div>Fits upto {maxCapacity} guests</div>
+      <Price>{formatCurrency(regular_price)}</Price>
+
+      <Discount>{formatCurrency(discount)}</Discount>
+      <button onClick={() => mutate(cabinId)} disabled={isDeleting}>
+        Delete
+      </button>
+    </TableRow>
+  );
+}
+
+export default CabinRow;
