@@ -2,11 +2,9 @@
 
 import styled from "styled-components";
 import { formatCurrency } from "../../utils/helpers";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteCabin } from "../../services/apiCabins";
-import toast from "react-hot-toast";
 import { useState } from "react";
 import CreateCabinForm from "./CreateCabinForm";
+import { useDeleteCabin } from "./useDeleteCabin";
 
 const TableRow = styled.div`
   display: grid;
@@ -49,6 +47,7 @@ const Discount = styled.div`
 
 function CabinRow({ cabin }) {
   const [showForm, setShowForm] = useState(false);
+  const { isDeleting, deleteCabin } = useDeleteCabin();
   const {
     id: cabinId,
     image,
@@ -58,26 +57,26 @@ function CabinRow({ cabin }) {
     discount,
   } = cabin;
 
-  // By using "useQueryClient" hook we can access the querClient instance
-  const queryClient = useQueryClient();
+  // // By using "useQueryClient" hook we can access the queryClient instance
+  // const queryClient = useQueryClient();
 
-  // This is used for mutating the values of the remote state (database datas)
-  const {
-    isLoading: isDeleting,
-    mutate /*  mutate is just a callback function that we can connect with the button */,
-  } = useMutation({
-    mutationFn: deleteCabin /* or (cabinId) => deleteCabin(cabinId) */,
-    /* This is the function that react query will call */ // This will tell react query what to do as soon as mutation was successful
-    // Here, we will invalid the cache to re-fetch the data
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        // This data with "cabins" as queryKey will be invalidate
-        queryKey: ["cabins"],
-      });
-      toast.success("Cabin successfully deleted");
-    },
-    onError: (err) => toast.error(err.message),
-  });
+  // // This is used for mutating the values of the remote state (database datas)
+  // const {
+  //   isLoading: isDeleting,
+  //   mutate /*  mutate is just a callback function that we can connect with the button */,
+  // } = useMutation({
+  //   mutationFn: deleteCabin /* or (cabinId) => deleteCabin(cabinId) */,
+  //   /* This is the function that react query will call */ // This will tell react query what to do as soon as mutation was successful
+  //   // Here, we will invalid the cache to re-fetch the data
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({
+  //       // This data with "cabins" as queryKey will be invalidate
+  //       queryKey: ["cabins"],
+  //     });
+  //     toast.success("Cabin successfully deleted");
+  //   },
+  //   onError: (err) => toast.error(err.message),
+  // });
 
   return (
     <>
@@ -87,10 +86,14 @@ function CabinRow({ cabin }) {
         <div>Fits upto {maxCapacity} guests</div>
         <Price>{formatCurrency(regular_price)}</Price>
 
-        <Discount>{formatCurrency(discount)}</Discount>
+        {discount ? (
+          <Discount>{formatCurrency(discount)}</Discount>
+        ) : (
+          <span>&mdash;</span>
+        )}
         <div>
           <button onClick={() => setShowForm((show) => !show)}>Edit</button>
-          <button onClick={() => mutate(cabinId)} disabled={isDeleting}>
+          <button onClick={() => deleteCabin(cabinId)} disabled={isDeleting}>
             Delete
           </button>
         </div>
