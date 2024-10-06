@@ -9,7 +9,6 @@ export function useCabins() {
   } = useQuery({
     queryKey: ["cabins"],
 
-    // getCabins will return promises
     queryFn: getCabins,
   });
 

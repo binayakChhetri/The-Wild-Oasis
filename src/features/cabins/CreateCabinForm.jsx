@@ -12,7 +12,7 @@ import FormRow from "../../ui/FormRow";
 import { useCreateCabin } from "./useCreateCabin";
 import { useEditCabin } from "./useEditCabin";
 
-function CreateCabinForm({ cabinToEdit = {} }) {
+function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
   const { isCreating, createCabin } = useCreateCabin();
   const { isEditing, editCabin } = useEditCabin();
   const isWorking = isCreating || isEditing;
@@ -30,6 +30,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
       defaultValues: isEditSesstion ? editValues : {},
     });
 
+  // We can get the error of the form using the formState hook
   const { errors } = formState;
 
   function onSubmit(data) {
@@ -45,6 +46,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
           // This callback function also get access to the data that the mutation function returns.
           onSuccess: () => {
             reset();
+            onCloseModal?.();
           },
         }
       );
@@ -56,6 +58,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 
           onSuccess: () => {
             reset();
+            onCloseModal?.();
           },
         }
       );
@@ -76,11 +79,13 @@ function CreateCabinForm({ cabinToEdit = {} }) {
         onError
         /* It is this function that react hook form will call whenever the form is submitted */
       )}
+      type={onCloseModal ? "modal" : "regular"}
     >
       <FormRow label="Cabin name" error={errors?.name?.message}>
         <Input
           type="text"
           id="name"
+          // name => It is the name of the field
           {...register("name", {
             required: "This field is required",
           })}
@@ -129,6 +134,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
             // The function will get the value as an argument.
             // Value argument is the current value that the input field has
             validate: (value) =>
+              // getValues will allow us to get values form all the input fields
               +value <= +getValues().regular_price ||
               "Discount should be less than regular price",
           })}
@@ -162,7 +168,14 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset">
+        <Button
+          variation="secondary"
+          type="reset"
+          onClick={
+            () => onCloseModal?.()
+            /* Here if onCloseModal is undefined then it will not be called */
+          }
+        >
           Cancel
         </Button>
         <Button disabled={isWorking}>

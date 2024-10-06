@@ -1,3 +1,6 @@
+/* eslint-disable */
+import { createPortal } from "react-dom";
+import { HiXMark } from "react-icons/hi2";
 import styled from "styled-components";
 
 const StyledModal = styled.div`
@@ -48,3 +51,22 @@ const Button = styled.button`
     color: var(--color-grey-500);
   }
 `;
+
+function Modal({ children, onClose }) {
+  return createPortal(
+    <Overlay>
+      <StyledModal>
+        <Button onClick={onClose}>
+          <HiXMark />
+        </Button>
+        <div>{children}</div>
+      </StyledModal>
+    </Overlay>,
+    document.body
+    // Here the modal will be the direct child of the body
+    // React portal is like portal because with the help of it we can simply teleport the components anywhere we like in the DOM tree.
+    //
+  );
+}
+
+export default Modal;
