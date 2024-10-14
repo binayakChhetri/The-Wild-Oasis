@@ -1,3 +1,6 @@
+/* eslint-disable */
+
+import { useSearchParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 const StyledFilter = styled.div`
@@ -33,3 +36,45 @@ const FilterButton = styled.button`
     color: var(--color-brand-50);
   }
 `;
+
+// We need to make this "Filter" component reusable in other places like bookings too, for this we need to pass in the data that might, as props.
+function Filter({ filterField, options }) {
+  //Storing the value in the URL
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentFilter = searchParams.get(filterField) || options.at(0).value;
+  function handleClick(value) {
+    // Setting the state for searchParams
+    searchParams.set(filterField, value);
+    console.log(value);
+    // Setting the URL in the browser
+    // After seeting the URL, we will get those params in our table component from which
+    // we'll filter
+    setSearchParams(searchParams);
+  }
+
+  return (
+    <StyledFilter>
+      {options.map((option) => (
+        <FilterButton
+          key={option.value}
+          onClick={() => handleClick(option.value)}
+          active={currentFilter === option.value}
+        >
+          {option.label}
+        </FilterButton>
+      ))}
+
+      {/* <FilterButton props="active" onClick={() => handleClick("all")}>
+        All
+      </FilterButton>
+      <FilterButton onClick={() => handleClick("no-discount")}>
+        No discount
+      </FilterButton>
+      <FilterButton onClick={() => handleClick("with-discount")}>
+        With discount
+      </FilterButton> */}
+    </StyledFilter>
+  );
+}
+
+export default Filter;
