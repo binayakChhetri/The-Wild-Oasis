@@ -1,3 +1,4 @@
+/* eslint-disable */
 import styled from "styled-components";
 
 const StyledSelect = styled.select`
@@ -13,3 +14,24 @@ const StyledSelect = styled.select`
   font-weight: 500;
   box-shadow: var(--shadow-sm);
 `;
+
+function Select({
+  onChange,
+  options,
+  value,
+  ...props /* We can also receive other remaining props using the rest operator  */
+}) {
+  // Destructuring the props
+  const { type } = props;
+  return (
+    <StyledSelect value={value} type={type} onChange={onChange}>
+      {options.map((option) => (
+        <option key={option.value} value={option.value}>
+          {option.label}
+        </option>
+      ))}
+    </StyledSelect>
+  );
+}
+
+export default Select;
