@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import styled from "styled-components";
 import { format, isToday } from "date-fns";
 
@@ -42,14 +44,14 @@ function BookingRow({
     endDate,
     numNights,
     numGuests,
-    totalPrice,
     status,
-    guests: { fullName: guestName, email },
+    totalPrice,
+    guests: { fullname: guestName, email },
     cabins: { name: cabinName },
   },
 }) {
   const statusToTagName = {
-    unconfirmed: "blue",
+    Unconfirmed: "blue",
     "checked-in": "green",
     "checked-out": "silver",
   };

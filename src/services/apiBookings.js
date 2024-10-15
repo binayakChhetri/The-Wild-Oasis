@@ -1,6 +1,24 @@
 import { getToday } from "../utils/helpers";
 import supabase from "./supabase";
 
+// This function is for getting all the bookings data
+export async function getBookings() {
+  const { data, error } = await supabase
+    .from("bookings")
+    // .select("*, cabins(*), guests(*)") => Here we are searching for the foreign key relation of cabins and guests too
+    // Data that belongs to the cabin and guest of that specific id
+    .select(
+      "id, created_at, startDate, endDate, numNights,numGuests,status, totalPrice , cabins(name), guests(fullname, email)"
+    );
+  if (error) {
+    console.error(error);
+    throw new Error("Bookings could not be loaded");
+  }
+
+  return data;
+}
+
+// This function is for getting an individual booking
 export async function getBooking(id) {
   const { data, error } = await supabase
     .from("bookings")
