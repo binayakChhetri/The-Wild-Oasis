@@ -59,7 +59,7 @@ function CabinRow({ cabin }) {
     image,
     maxCapacity,
     name,
-    regular_price,
+    regularPrice,
     discount,
     description,
   } = cabin;
@@ -68,7 +68,7 @@ function CabinRow({ cabin }) {
     createCabin({
       name: `Copy of ${name}`,
       maxCapacity,
-      regular_price,
+      regularPrice,
       discount,
       image,
       description,
@@ -101,7 +101,7 @@ function CabinRow({ cabin }) {
       <Img src={image} />
       <Cabin>{name}</Cabin>
       <div>Fits upto {maxCapacity} guests</div>
-      <Price>{formatCurrency(regular_price)}</Price>
+      <Price>{formatCurrency(regularPrice)}</Price>
 
       {discount ? (
         <Discount>{formatCurrency(discount)}</Discount>

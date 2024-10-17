@@ -8,7 +8,7 @@ export async function getBookings() {
     // .select("*, cabins(*), guests(*)") => Here we are searching for the foreign key relation of cabins and guests too
     // Data that belongs to the cabin and guest of that specific id
     .select(
-      "id, created_at, startDate, endDate, numNights,numGuests,status, totalPrice , cabins(name), guests(fullname, email)"
+      "id, created_at, startDate, endDate, numNights,numGuests,status, totalPrice , cabins(name), guests(fullName, email)"
     );
   if (error) {
     console.error(error);
