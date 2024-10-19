@@ -6,11 +6,16 @@ import Menus from "../../ui/Menus";
 import Empty from "../../ui/Empty";
 import { useBookings } from "./useBookings";
 import Spinner from "../../ui/Spinner";
+import { useSearchParams } from "react-router-dom";
 
 function BookingTable() {
   const { isLoading, bookings } = useBookings();
-  console.log(bookings);
+  // Reading the data from the url
+  const [searchParams] = useSearchParams();
+
   if (isLoading) return <Spinner />;
+
+  if (!bookings.length) return <Empty resourceName="bookings" />;
 
   if (!bookings.length) return <Empty resourceName="bookings" />;
   return (

@@ -2,14 +2,27 @@ import { getToday } from "../utils/helpers";
 import supabase from "./supabase";
 
 // This function is for getting all the bookings data
-export async function getBookings() {
-  const { data, error } = await supabase
+export async function getBookings({ filter, sortBy }) {
+  let query = supabase
     .from("bookings")
     // .select("*, cabins(*), guests(*)") => Here we are searching for the foreign key relation of cabins and guests too
     // Data that belongs to the cabin and guest of that specific id
     .select(
       "id, created_at, startDate, endDate, numNights,numGuests,status, totalPrice , cabins(name), guests(fullName, email)"
     );
+
+  // Filter
+  if (filter) query = query[filter.method || "eq"](filter.field, filter.value);
+
+  // SORT
+  if (sortBy)
+    query = query.order(sortBy.field, {
+      ascending: sortBy.direction === "asc",
+    });
+  const { data, error } = await query;
+
+  // Here the bookings with the status unconfirmed will only be fetched
+  // .eq("status", "unconfirmed");
   if (error) {
     console.error(error);
     throw new Error("Bookings could not be loaded");
