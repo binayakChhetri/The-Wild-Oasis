@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
 import styled from "styled-components";
-
+import { PAGE_SIZE } from "../utils/constants";
 const StyledPagination = styled.div`
   width: 100%;
   display: flex;
@@ -62,7 +62,6 @@ const PaginationButton = styled.button`
 // Magic number
 // A magic number is like a number that someone reading this code will not really understand where its coming from
 // Whenever we have a magic number, its always a good idea to place that into a variable
-const PAGE_SIZE = 10;
 
 function Pagination({ count }) {
   const [searchParams, setSearchParams] = useSearchParams();

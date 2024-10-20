@@ -45,6 +45,7 @@ function Filter({ filterField, options }) {
   function handleClick(value) {
     // Setting the state for searchParams
     searchParams.set(filterField, value);
+    searchParams.set("page", 1);
     console.log(value);
     // Setting the URL in the browser
     // After seeting the URL, we will get those params in our table component from which
