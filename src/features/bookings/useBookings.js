@@ -7,7 +7,7 @@ export function useBookings() {
 
   // FILTER
   const filterValue = searchParams.get("status");
-  console.log(filterValue);
+
   const filter =
     !filterValue || filterValue === "all"
       ? null
@@ -20,9 +20,7 @@ export function useBookings() {
   // SORT
   const sortByRaw = searchParams.get("sortBy") || "startDate-desc";
   const [field, direction] = sortByRaw.split("-");
-  console.log(field, direction);
   const sortBy = { field, direction };
-  console.log(sortBy);
 
   const {
     isLoading,
