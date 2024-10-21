@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import styled from "styled-components";
 import { format, isToday } from "date-fns";
 import {
@@ -103,6 +105,7 @@ const Footer = styled.footer`
 
 // A purely presentational component
 function BookingDataBox({ booking }) {
+  console.log(booking);
   const {
     created_at,
     startDate,
