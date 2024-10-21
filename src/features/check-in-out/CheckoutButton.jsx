@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import Button from "../../ui/Button";
 
 function CheckoutButton({ bookingId }) {
