@@ -46,7 +46,6 @@ export async function getBookings({ filter, sortBy, page }) {
 
 // This function is for getting an individual booking
 export async function getBooking(id) {
-  console.log(id);
   const { data, error } = await supabase
     .from("bookings")
     .select("*, cabins(*), guests(*)")
