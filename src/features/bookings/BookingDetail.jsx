@@ -15,6 +15,9 @@ import { useBooking } from "./useBooking";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Spinner from "../../ui/Spinner";
 import { useCheckout } from "../check-in-out/useCheckout";
+import Modal from "../../ui/Modal";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import { useDeleteBooking } from "./useDeleteBooking";
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -25,11 +28,12 @@ const HeadingGroup = styled.div`
 function BookingDetail() {
   const { isLoading, booking } = useBooking();
   const { checkout, isCheckingOut } = useCheckout();
+  const { deleteBooking, isDeleting } = useDeleteBooking();
 
   const navigate = useNavigate();
   const moveBack = useMoveBack();
 
-  if (isLoading) return <Spinner />;
+  if (isLoading || isDeleting) return <Spinner />;
 
   const { status, id: bookingId } = booking;
 
@@ -41,6 +45,13 @@ function BookingDetail() {
 
   function handleCheckout() {
     checkout(bookingId);
+  }
+
+  function handleDeleteBooking() {
+    // onSettled means that this will always happen no matter if its an error or success.
+    deleteBooking(bookingId, {
+      onSettled: () => navigate(-1) /* Navigate back by one step */,
+    });
   }
 
   return (
@@ -70,6 +81,22 @@ function BookingDetail() {
             Check in
           </Button>
         )}
+
+        {/* Modal window for confirming the delte activity */}
+        <Modal>
+          <Modal.Open opens="delete">
+            <Button variation="danger">Delete booking</Button>
+          </Modal.Open>
+          <Modal.Window name="delete">
+            <ConfirmDelete
+              disabled={isDeleting}
+              resourceName="booking"
+              onConfirm={() => {
+                handleDeleteBooking();
+              }}
+            />
+          </Modal.Window>
+        </Modal>
 
         <Button variation="secondary" onClick={moveBack}>
           Back
