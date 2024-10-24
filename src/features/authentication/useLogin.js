@@ -13,7 +13,7 @@ export function useLogin() {
       // Setting the user data in the react query cache
       queryClient.setQueriesData(["user"], user);
 
-      navigate("/dashboard");
+      navigate("/dashboard", { replace: true });
       toast.success("Logged in successfull.");
     },
     onError: (err) => {
