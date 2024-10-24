@@ -9,9 +9,9 @@ export function useLogin() {
   // using mutation becoz there will be changes in the server
   const { mutate: login, isLoading } = useMutation({
     mutationFn: ({ email, password }) => loginApi({ email, password }),
-    onSuccess: (user) => {
+    onSuccess: (data) => {
       // Setting the user data in the react query cache
-      queryClient.setQueriesData(["user"], user);
+      queryClient.setQueriesData(["user"], data.user);
 
       navigate("/dashboard", { replace: true });
       toast.success("Logged in successfull.");
