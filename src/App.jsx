@@ -14,6 +14,7 @@ import GlobalStyles from "./styles/GlobalStyles";
 import { Toaster } from "react-hot-toast";
 import Booking from "./pages/Booking";
 import Checkin from "./pages/Checkin";
+import ProtectedRoute from "./ui/ProtectedRoute";
 
 // This is the query client, which basically sets up the cache behind the scenes.
 const queryClient = new QueryClient({
@@ -38,7 +39,14 @@ function App() {
         This will basically redirect the route to the dashboard
         /dashboard
       */}
-          <Route element={<AppLayout />}>
+          <Route
+            element={
+              <ProtectedRoute>
+                <AppLayout />
+              </ProtectedRoute>
+            }
+          >
+            {/* These all route will not only be the children of AppLayout but also of ProtectedRoute */}
             <Route index element={<Navigate replace to="dashboard" />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="bookings" element={<Bookings />} />
