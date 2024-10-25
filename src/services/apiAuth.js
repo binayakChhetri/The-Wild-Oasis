@@ -30,3 +30,23 @@ export async function logout() {
 
   if (error) throw new Error(error.message);
 }
+
+// SIGN-UP
+export async function signup({ fullName, email, password }) {
+  let { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+
+    // This is because we can just add some other optional data in the user
+    options: {
+      data: {
+        fullName,
+        avatar: "",
+      },
+    },
+  });
+
+  if (error) throw new Error(error.message);
+
+  return data;
+}

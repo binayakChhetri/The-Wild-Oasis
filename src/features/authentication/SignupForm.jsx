@@ -6,16 +6,21 @@ import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 
 import { useForm } from "react-hook-form";
+import { useSignup } from "./useSignup";
 
 // Email regex: /\S+@\S+\.\S+/
 // Here we will again use react hook form library here for error handling
 
 function SignupForm() {
-  const { register, formState, getValues, handleSubmit } = useForm();
+  const { register, formState, getValues, handleSubmit, reset } = useForm();
   const { errors } = formState;
 
-  function onSubmit(data) {
-    console.log(data);
+  //
+  const { signup, isLoading: isLoadingSignup } = useSignup();
+
+  function onSubmit({ fullName, email, password }) {
+    console.log(fullName, email, password);
+    signup({ fullName, email, password }, { onSettled: () => reset() });
   }
 
   return (
@@ -24,6 +29,7 @@ function SignupForm() {
         <Input
           type="text"
           id="fullName"
+          disabled={isLoadingSignup}
           {...register("fullName", {
             required: "This field is required.",
           })}
@@ -34,6 +40,7 @@ function SignupForm() {
         <Input
           type="email"
           id="email"
+          disabled={isLoadingSignup}
           {...register("email", {
             required: "This field is required.",
             pattern: {
@@ -51,6 +58,7 @@ function SignupForm() {
         <Input
           type="password"
           id="password"
+          disabled={isLoadingSignup}
           {...register("password", {
             required: "This field is required.",
             minLength: {
@@ -65,6 +73,7 @@ function SignupForm() {
         <Input
           type="password"
           id="passwordConfirm"
+          disabled={isLoadingSignup}
           {...register("passwordConfirm", {
             required: "This field is required.",
             validate: (value) =>
@@ -75,10 +84,10 @@ function SignupForm() {
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset">
+        <Button variation="secondary" type="reset" disabled={isLoadingSignup}>
           Cancel
         </Button>
-        <Button>Create new user</Button>
+        <Button disabled={isLoadingSignup}>Create new user</Button>
       </FormRow>
     </Form>
   );
