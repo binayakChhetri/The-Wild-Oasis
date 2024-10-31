@@ -130,3 +130,9 @@ function prepareData(startData, stays) {
 
   return data;
 }
+
+function DurationChart() {
+  return <ChartBox></ChartBox>;
+}
+
+export default DurationChart;
