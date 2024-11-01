@@ -1,8 +1,8 @@
 /*eslint-disable*/
 import styled from "styled-components";
-import DashboardFilter from "./DashboardFilter";
-import DashboardBox from "./DashboardBox";
-import Stat from "./Stat";
+import useRecentBookings from "./useRecentBookings";
+import Spinner from "../../ui/Spinner";
+import useRecentStays from "./useRecentStays";
 
 const StyledDashboardLayout = styled.div`
   display: grid;
@@ -12,6 +12,11 @@ const StyledDashboardLayout = styled.div`
 `;
 
 function DashboardLayout() {
+  const { bookings, isLoading } = useRecentBookings();
+  const { stays, confirmedStays, isLoading: isLoading2 } = useRecentStays();
+  if (isLoading || isLoading2) return <Spinner />;
+
+  console.log(bookings);
   return (
     <StyledDashboardLayout>
       <div>Statistics</div>
