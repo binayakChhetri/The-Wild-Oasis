@@ -46,14 +46,7 @@ function TodayItem({ activity }) {
         </Button>
       )}
       {status === "checked-in" && (
-        <CheckoutButton
-          size="small"
-          variation="primary"
-          as={Link}
-          to={`/checkin/${id}`}
-        >
-          Check out
-        </CheckoutButton>
+        <CheckoutButton bookingId={id}>Check out</CheckoutButton>
       )}
     </StyledTodayItem>
   );
