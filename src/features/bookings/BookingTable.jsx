@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import BookingRow from "./BookingRow";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";

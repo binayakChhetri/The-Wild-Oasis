@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import styled from "styled-components";
 
 import BookingDataBox from "./BookingDataBox";

@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import supabase, { supabaseUrl } from "./supabase";
 // Getting the cabin data
 export async function getCabins() {

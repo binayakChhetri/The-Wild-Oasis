@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import { formatDistance, differenceInDays, parseISO } from "date-fns";
 
 // We want to make this function work for both Date objects and strings (which come from Supabase)

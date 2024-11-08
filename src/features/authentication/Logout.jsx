@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import ButtonIcon from "../../ui/ButtonIcon";
 import { HiArrowRightOnRectangle } from "react-icons/hi2";
 import SpinnerMini from "../../ui/SpinnerMini";
