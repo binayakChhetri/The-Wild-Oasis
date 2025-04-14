@@ -8,7 +8,6 @@ export function useCabins() {
     error,
   } = useQuery({
     queryKey: ["cabins"],
-
     queryFn: getCabins,
   });
 
