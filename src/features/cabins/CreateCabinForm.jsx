@@ -35,7 +35,6 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 
   function onSubmit(data) {
     // data from all the fields that we register
-    console.log(data);
 
     const image = typeof data.image === "string" ? data.image : data.image[0];
 
